@@ -2,22 +2,22 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/ProductSlice";
 import ProductCard from "../ProductCard/ProductCard";
-import HeroSection from "../HeroSection/HeroSection";
+import { FaTshirt, FaLaptop,  FaFilter, FaRing } from "react-icons/fa";
+import { GiDress } from "react-icons/gi";
+
 
 const Home = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.products.items);
-  const [searchTerm, setSearchTerm] = useState("");
-
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
     document.body.style.backgroundColor = darkMode ? "#121212" : "#ffffff";
     document.body.style.color = darkMode ? "#ffffff" : "#000000";
 
-    
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
@@ -25,45 +25,57 @@ const Home = () => {
     dispatch(fetchProducts());
   }, [dispatch]);
 
-  const filteredProducts = products.filter((product) =>
-    product.title.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const filteredProducts = selectedCategory === "All"
+    ? products
+    : products.filter((product) => product.category === selectedCategory);
 
   return (
     <div style={{ padding: "16px" }}>
-      <HeroSection darkMode={darkMode} setDarkMode={setDarkMode} />
+      {/* <HeroSection darkMode={darkMode} setDarkMode={setDarkMode} />  */}
 
-      
+
+      {/* Filter Icons */}
       <div
         style={{
-          padding: "16px",
-          textAlign: "center",
-          backgroundColor: darkMode ? "#333" : "#f4f4f4",
-          color: darkMode ? "#fff" : "#000",
-          borderRadius: "10px",
+          display: "flex",
+          justifyContent: "center",
+          gap: "15px",
           marginBottom: "20px",
         }}
       >
-        <h2>Latest Products</h2>
+        <FaFilter
+          size={30}
+          color={selectedCategory === "All" ? "#007bff" : "#555"}
+          onClick={() => setSelectedCategory("All")}
+          style={{ cursor: "pointer" }}
+        />
+        <FaLaptop
+          size={30}
+          color={selectedCategory === "electronics" ? "#007bff" : "#555"}
+          onClick={() => setSelectedCategory("electronics")}
+          style={{ cursor: "pointer" }}
+        />
+        <FaTshirt
+          size={30}
+          color={selectedCategory === "men's clothing" ? "#007bff" : "#555"}
+          onClick={() => setSelectedCategory("men's clothing")}
+          style={{ cursor: "pointer" }}
+        />
+        < GiDress
+          size={30}
+          color={selectedCategory === "women's clothing" ? "#007bff" : "#555"}
+          onClick={() => setSelectedCategory("women's clothing")}
+          style={{ cursor: "pointer" }}
+        />
+        <FaRing 
+         size={30}
+         color={selectedCategory === "jewelery" ? "#007bff" : "#555"}
+         onClick={() => setSelectedCategory("jewelery")}
+         style={{ cursor: "pointer" }}
+        />
       </div>
 
-      
-      <input
-        type="text"
-        placeholder="Search products..."
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        style={{
-          padding: "10px",
-          marginBottom: "16px",
-          width: "100%",
-          borderRadius: "5px",
-          border: "1px solid #ccc",
-          outline: "none",
-        }}
-      />
-
-      
+      {/* Product Grid */}
       <div
         style={{
           display: "grid",
