@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiX } from "react-icons/fi";
+import { Link, useNavigate } from "react-router-dom";
+import { FiShoppingCart, FiMenu, FiX, FiSearch } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import Switch from "react-switch";
 import logo from "../../assets/logo.png";
 
-
 const Navbar = ({ darkMode, setDarkMode }) => {
-  const [isOpen, setIsOpen] = useState(false); // Mobile menu state
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const cartItems = useSelector((state) => state.cart.items);
 
-  // Load theme from localStorage on mount
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
     if (savedTheme) {
@@ -19,7 +19,6 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     }
   }, [setDarkMode]);
 
-  // Toggle Dark Mode
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => {
       const newMode = !prevMode;
@@ -28,19 +27,39 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     });
   };
 
-  // Toggle Menu Visibility
   const toggleMenu = () => {
     setIsOpen((prev) => !prev);
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${searchQuery}`);
+      setSearchQuery("");
+    }
+  };
+
   return (
     <nav className={`relative sticky top-0 z-50 px-6 py-4 shadow-md flex justify-between items-center ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}>
-      
       {/* Logo */}
       <Link to="/" className="flex items-center gap-2">
         <img src={logo} alt="E-Shop Logo" className="h-10 cursor-pointer" />
-        <h2 className="text-xl font-semibold">E-Shop</h2>
+        <h2 className="text-xl font-semibold hidden sm:block">E-Shop</h2>
       </Link>
+
+      {/* Search Bar - Adjusts size for smaller screens */}
+      <form onSubmit={handleSearchSubmit} className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-64 sm:w-48 md:w-64 lg:w-72">
+        <input
+          type="text"
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-2 py-1 outline-none bg-transparent w-full text-sm"
+        />
+        <button type="submit" className="px-3 py-1 bg-blue-500 text-white">
+          <FiSearch size={18} />
+        </button>
+      </form>
 
       {/* Desktop Navigation */}
       <div className="hidden md:flex items-center gap-6">
