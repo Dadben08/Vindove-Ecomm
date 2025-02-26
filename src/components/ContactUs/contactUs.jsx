@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FaLinkedin, FaInstagram, FaWhatsapp } from "react-icons/fa";
 
-const ContactUs = () => {
+const ContactUs = ({ darkMode }) => {
   const [formData, setFormData] = useState({ name: "", email: "", message: "" });
 
   const handleChange = (e) => {
@@ -15,9 +15,9 @@ const ContactUs = () => {
   };
 
   return (
-    <div style={{ padding: "40px", maxWidth: "600px", margin: "auto", textAlign: "center"}}>
-      <h2 style={{ color: "#007bff" }}>Contact Us</h2>
-      <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
+    <div className={`p-10 max-w-lg mx-auto text-center pt-26 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+      <h2 className="text-2xl font-bold text-red-500">Contact Us</h2>
+      <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-6">
         <input
           type="text"
           name="name"
@@ -25,7 +25,7 @@ const ContactUs = () => {
           value={formData.name}
           onChange={handleChange}
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1.5px solid gray", color: "#007bff" }}
+          className="p-2 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
         />
         <input
           type="email"
@@ -34,7 +34,7 @@ const ContactUs = () => {
           value={formData.email}
           onChange={handleChange}
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1.5px solid gray", color: "#007bff" }}
+          className="p-2 rounded border border-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
         />
         <textarea
           name="message"
@@ -42,22 +42,22 @@ const ContactUs = () => {
           value={formData.message}
           onChange={handleChange}
           required
-          style={{ padding: "10px", borderRadius: "5px", border: "1.5px solid gray", height: "150px", color: "#007bff" }}
+          className="p-2 rounded border border-gray-400 h-36 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-transparent"
         />
-        <button type="submit" style={{ backgroundColor: "#28a745", color: "white", padding: "10px", border: "none", borderRadius: "5px", cursor: "pointer" }}>
+        <button type="submit" className="bg-red-600 text-white p-2 rounded hover:bg-red-700 transition">
           Send Message
         </button>
       </form>
 
       {/* Social Media Links */}
-      <div style={{ marginTop: "140px", display: "flex", justifyContent: "center", gap: "20px" }}>
-        <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" style={{ color: "#007bff", fontSize: "30px" }}>
+      <div className="mt-14 flex justify-center gap-6 text-3xl">
+        <a href="https://www.linkedin.com/in/your-profile" target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:text-blue-600 transition">
           <FaLinkedin />
         </a>
-        <a href="https://www.instagram.com/your-profile" target="_blank" rel="noopener noreferrer" style={{ color: "#E1306C", fontSize: "30px" }}>
+        <a href="https://www.instagram.com/your-profile" target="_blank" rel="noopener noreferrer" className="text-pink-500 hover:text-pink-600 transition">
           <FaInstagram />
         </a>
-        <a href="https://wa.me/yourwhatsappnumber" target="_blank" rel="noopener noreferrer" style={{ color: "#25D366", fontSize: "30px" }}>
+        <a href="https://wa.me/yourwhatsappnumber" target="_blank" rel="noopener noreferrer" className="text-green-500 hover:text-green-600 transition">
           <FaWhatsapp />
         </a>
       </div>

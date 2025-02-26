@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { Provider, useSelector } from "react-redux";
 import store from "./components/store/store";
-import Home from "./components/pages/Home.jsx";
+import Home from "./components/Home/Home.jsx";
 import Cart from "./components/pages/Cart.jsx";
 import Navbar from "./components/Navbar/Navbar.jsx";
 import Footer from "./components/Footer/Footer.jsx";
@@ -10,16 +10,21 @@ import ProductDetail from "./components/pages/ProductDetail.jsx";
 import AboutMe from "./components/AboutMe/aboutMe.jsx";
 import ContactUs from "./components/ContactUs/contactUs.jsx";
 import Checkout from "./components/pages/Checkout.jsx";
+import Login from "./components/Login/Login.jsx";
 
 function AppContent() {
   const [darkMode, setDarkMode] = useState(
     localStorage.getItem("theme") === "dark"
   );
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("All");
 
   useEffect(() => {
-    document.body.style.backgroundColor = darkMode ? "#121212" : "#ffffff";
-    document.body.style.color = darkMode ? "#ffffff" : "#000000";
+    if (darkMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
     localStorage.setItem("theme", darkMode ? "dark" : "light");
   }, [darkMode]);
 
@@ -34,18 +39,30 @@ function AppContent() {
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         cartItems={cartItems}
+        setSelectedCategory={setSelectedCategory}
       />
 
       <Routes>
-        <Route path="/" element={<Home darkMode={darkMode} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />} />
+        <Route 
+          path="/" 
+          element={
+            <Home 
+              selectedCategory={selectedCategory} 
+              darkMode={darkMode} 
+              searchTerm={searchTerm} 
+              setSearchTerm={setSearchTerm} 
+            />
+          } 
+        />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<ProductDetail />} />
         <Route path="/about" element={<AboutMe />} />
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/checkout" element={<Checkout />} />
+        <Route path="/login" element={ <Login />} />
       </Routes>
 
-      <Footer />
+      <Footer  darkMode={darkMode} />
     </Router>
   );
 }

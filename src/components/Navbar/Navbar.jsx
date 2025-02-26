@@ -1,23 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FiShoppingCart, FiMenu, FiX, FiSearch } from "react-icons/fi";
+import { FiGlobe, FiMenu, FiX, FiSearch, FiUser, FiShoppingCart } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
-import Switch from "react-switch";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.webp";
+import { setSearchQuery } from "../store/filterSlice";
 
 const Navbar = ({ darkMode, setDarkMode }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const [search, setSearch] = useState("");
   const cartItems = useSelector((state) => state.cart.items);
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setDarkMode(savedTheme === "dark");
-    }
-  }, [setDarkMode]);
 
   const toggleDarkMode = () => {
     setDarkMode((prevMode) => {
@@ -31,101 +24,98 @@ const Navbar = ({ darkMode, setDarkMode }) => {
     setIsOpen((prev) => !prev);
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+    dispatch(setSearchQuery(e.target.value));
+  };
+
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?q=${searchQuery}`);
-      setSearchQuery("");
-    }
+    navigate(`/search?q=${search}`);
   };
 
   return (
-    <nav className={`relative sticky top-0 z-50 px-6 py-4 shadow-md flex justify-between items-center ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}>
-      {/* Logo */}
+    <nav
+      className={`sticky top-0 z-50 px-6 py-4 border-b flex justify-between items-center ${
+        darkMode ? "bg-gray-900 text-white" : "bg-white text-black"
+      }`}
+    >
       <Link to="/" className="flex items-center gap-2">
         <img src={logo} alt="E-Shop Logo" className="h-10 cursor-pointer" />
-        <h2 className="text-xl font-semibold hidden sm:block">E-Shop</h2>
       </Link>
 
-      {/* Search Bar - Adjusts size for smaller screens */}
-      <form onSubmit={handleSearchSubmit} className="flex items-center border border-gray-300 rounded-lg overflow-hidden w-64 sm:w-48 md:w-64 lg:w-72">
+      {/* Search Bar (Hidden on Small Screens) */}
+      <form
+        onSubmit={handleSearchSubmit}
+        className="hidden md:flex items-center border border-gray-300 shadow-md rounded-3xl overflow-hidden w-64 h-11"
+      >
         <input
           type="text"
+          value={search}
+          onChange={handleSearch}
           placeholder="Search..."
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
           className="px-2 py-1 outline-none bg-transparent w-full text-sm"
         />
-        <button type="submit" className="px-3 py-1 bg-blue-500 text-white">
-          <FiSearch size={18} />
+        <button
+          type="submit"
+          className="px-3 py-1 mx-2 bg-red-600 text-white rounded-3xl w-9 h-9 flex items-center justify-center"
+        >
+          <FiSearch size={14} />
         </button>
       </form>
 
-      {/* Desktop Navigation */}
-      <div className="hidden md:flex items-center gap-6">
-        <Link to="/" className="hover:text-gray-500">Home</Link>
-        <Link to="/about" className="hover:text-gray-500">About</Link>
-        <Link to="/contact" className="hover:text-gray-500">Contact</Link>
-
-        {/* Cart Icon */}
-        <Link to="/cart" className="relative">
-          <FiShoppingCart size={25} />
+      {/* Icons & Menu */}
+      <div className="flex items-center gap-2">
+        <Link to="/cart" className="relative p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-300">
+          <FiShoppingCart size={22} />
           {cartItems.length > 0 && (
-            <span className="absolute -top-2 -right-3 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
+            <span className="absolute top-0 right-0 bg-red-600 text-white text-xs font-bold rounded-full px-2">
               {cartItems.length}
             </span>
           )}
         </Link>
 
-        {/* Dark Mode Switch */}
-        <Switch
-          onChange={toggleDarkMode}
-          checked={darkMode}
-          onColor="#222"
-          offColor="#ddd"
-          checkedIcon={false}
-          uncheckedIcon={false}
-          height={20}
-          width={40}
-          handleDiameter={18}
-        />
-      </div>
+        <Link to="/cart" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-300">
+          <FiGlobe size={22} />
+        </Link> 
+        <div className="border-1 flex p-1.5 rounded-full">
+        <div className="relative">
+          <button onClick={toggleMenu} className="p-2 rounded-full h-8 w-8 flex border border-gray-400">
+            {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
+          </button>
 
-      {/* Mobile Menu Button */}
-      <button className="md:hidden text-2xl" onClick={toggleMenu}>
-        {isOpen ? <FiX /> : <FiMenu />}
-      </button>
-
-      {/* Mobile Navigation Menu */}
-      <div className={`absolute top-full left-0 w-full transition-transform duration-300 ease-in-out md:hidden ${isOpen ? "translate-y-0 opacity-100" : "-translate-y-96 opacity-0"} ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"} shadow-md py-4 px-6 flex flex-col gap-4`}>
-        <Link to="/" className="hover:text-gray-500" onClick={toggleMenu}>Home</Link>
-        <Link to="/about" className="hover:text-gray-500" onClick={toggleMenu}>About</Link>
-        <Link to="/contact" className="hover:text-gray-500" onClick={toggleMenu}>Contact</Link>
-
-        {/* Cart Icon */}
-        <Link to="/cart" className="relative flex items-center" onClick={toggleMenu}>
-          <FiShoppingCart size={25} />
-          {cartItems.length > 0 && (
-            <span className="ml-2 bg-red-600 text-white text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">
-              {cartItems.length}
-            </span>
+          {isOpen && (
+            <div className="absolute right-0 mt-2 w-48 text-black bg-white border border-gray-300 rounded-lg shadow-lg p-4 flex flex-col items-start">
+              <Link
+                to="/about"
+                className="block w-full px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                onClick={() => setIsOpen(false)}
+              >
+                About Me
+              </Link>
+              <Link
+                to="/contact"
+                className="block w-full px-4 py-2 hover:bg-gray-200 dark:hover:bg-gray-700 rounded"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact
+              </Link>
+              <button
+                onClick={toggleDarkMode}
+                className="w-full text-left p-2 border border-gray-400 rounded-full shadow-md h-10 hover:shadow-lg mt-2"
+              >
+                {darkMode ? "🌙 Dark Mode" : "☀️ Light Mode"}
+              </button>
+            </div>
           )}
-        </Link>
+        </div>
 
-        {/* Dark Mode Toggle */}
-        <div className="flex items-center gap-2">
-          <span>Dark Mode</span>
-          <Switch
-            onChange={toggleDarkMode}
-            checked={darkMode}
-            onColor="#222"
-            offColor="#ddd"
-            checkedIcon={false}
-            uncheckedIcon={false}
-            height={20}
-            width={40}
-            handleDiameter={18}
-          />
+        <Link
+          to="/login"
+          className="bg-gray-300 rounded-full p-2 flex items-center justify-center w-8 h-8 shadow-md border border-gray-400 hover:shadow-lg"
+        >
+          <FiUser size={18} />
+        </Link>
         </div>
       </div>
     </nav>

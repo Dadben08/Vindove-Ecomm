@@ -47,7 +47,7 @@ const Cart = () => {
           {/* Proceed to Checkout Button */}
           <button 
             onClick={handleCheckout}
-            style={{ backgroundColor: "#28a745", color: "white", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer", width: "100%", marginTop: "10px" }}
+            style={{ backgroundColor: "#dc2626", color: "white", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer", width: "100%", marginTop: "10px" }}
           >
             Proceed to Checkout
           </button>

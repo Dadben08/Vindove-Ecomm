@@ -1,8 +1,8 @@
 import React from "react";
 
-const Footer = () => {
+const Footer = ({ darkMode }) => {
   return (
-    <footer style={{ textAlign: "center", padding: "20px", backgroundColor: "#333333", color: "white", marginTop: "20px" }}>
+    <footer className={`h-12 text-center items-center py-4 ${darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"}`}>
       <p>&copy; 2025 E-Commerce. All rights reserved.</p>
     </footer>
   );
