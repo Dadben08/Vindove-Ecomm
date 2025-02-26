@@ -78,7 +78,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         <Link to="/cart" className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-300">
           <FiGlobe size={22} />
         </Link> 
-        <div className="border-1 flex p-1.5 rounded-full">
+        <div className="border-1 border-gray-400  shadow-xl flex p-1.5 rounded-full gap-2.5">
         <div className="relative">
           <button onClick={toggleMenu} className="p-2 rounded-full h-8 w-8 flex border border-gray-400">
             {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
