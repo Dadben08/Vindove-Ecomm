@@ -56,8 +56,8 @@ function AppContent() {
         />
         <Route path="/cart" element={<Cart />} />
         <Route path="/product/:id" element={<ProductDetail />} />
-        <Route path="/about" element={<AboutMe />} />
-        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/about" element={<AboutMe  darkMode={darkMode} />} />
+        <Route path="/contact" element={<ContactUs  darkMode={darkMode} />} />
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/login" element={ <Login />} />
       </Routes>
