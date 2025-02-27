@@ -31,7 +31,7 @@ const ContactUs = ({ darkMode }) => {
 
   return (
     <div className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
-      <div className={`p-10 max-w-lg w-full text-center pt-6 rounded-lg shadow-lg ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+      <div className={`p-10 max-w-lg w-full text-center pt-6 rounded-lg  ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
         <h2 className="text-2xl font-bold text-red-500">Contact Us</h2>
         {error && <p className="text-red-500 mt-2">{error}</p>}
         {success && <p className="text-green-500 mt-2">Message sent successfully!</p>}

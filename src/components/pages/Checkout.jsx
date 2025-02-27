@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { clearCart } from "../store/cartSlice"; // Add action to clear cart
 import { useNavigate } from "react-router-dom";
 
-const Checkout = () => {
+const Checkout = ({ darkMode }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
   const dispatch = useDispatch();
@@ -36,36 +36,65 @@ const Checkout = () => {
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "500px", margin: "auto", border: "1px solid #ccc", borderRadius: "5px", marginTop: "100px", boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", marginBottom: "170px" }}>
-      <h2>Checkout</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Full Name" value={form.name} onChange={handleChange} required style={inputStyle} />
-        <input type="email" name="email" placeholder="Email" value={form.email} onChange={handleChange} required style={inputStyle} />
-        <input type="text" name="address" placeholder="Shipping Address" value={form.address} onChange={handleChange} required style={inputStyle} />
-        <h3>Total: ${totalPrice.toFixed(2)}</h3>
-        <button type="submit" style={buttonStyle}>Place Order</button>
-      </form>
+    <div
+      className={`min-h-screen flex items-center justify-center transition-all duration-300 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+      }`}
+    >
+      <div
+        className={`w-full max-w-md p-6 rounded-lg shadow-md transition-all duration-300 ${
+          darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+        }`}
+      >
+        <h2 className="text-2xl font-semibold text-center mb-4">Checkout</h2>
+
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={form.name}
+            onChange={handleChange}
+            required
+            className={`w-full p-2 rounded-md border ${
+              darkMode ? "border-gray-600 bg-gray-700 text-white" : "border-gray-300 bg-white text-black"
+            }`}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={form.email}
+            onChange={handleChange}
+            required
+            className={`w-full p-2 rounded-md border ${
+              darkMode ? "border-gray-600 bg-gray-700 text-white" : "border-gray-300 bg-white text-black"
+            }`}
+          />
+          <input
+            type="text"
+            name="address"
+            placeholder="Shipping Address"
+            value={form.address}
+            onChange={handleChange}
+            required
+            className={`w-full p-2 rounded-md border ${
+              darkMode ? "border-gray-600 bg-gray-700 text-white" : "border-gray-300 bg-white text-black"
+            }`}
+          />
+
+          <h3 className="text-lg font-semibold">Total: ${totalPrice.toFixed(2)}</h3>
+
+          <button
+            type="submit"
+            className="w-full bg-red-600 text-white py-2 rounded-lg hover:bg-red-500 transition"
+          >
+            Place Order
+          </button>
+        </form>
+      </div>
     </div>
   );
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "10px",
-  margin: "10px 0",
-  borderRadius: "5px",
-  border: "1px solid #ccc",
-};
-
-const buttonStyle = {
-  backgroundColor: "#dc2626",
-  color: "white",
-  padding: "10px",
-  borderRadius: "5px",
-  border: "none",
-  cursor: "pointer",
-  width: "100%",
-  marginTop: "10px",
 };
 
 export default Checkout;

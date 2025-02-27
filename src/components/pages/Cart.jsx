@@ -1,14 +1,14 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { removeFromCart } from "../store/cartSlice";
-import { useNavigate } from "react-router-dom"; 
+import { addToCart, removeFromCart } from "../store/cartSlice";
+import { useNavigate } from "react-router-dom";
 
-const Cart = () => {
+const Cart = ({ darkMode }) => {
   const cartItems = useSelector((state) => state.cart.items);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
+  const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0);
 
   // Handle Checkout Navigation
   const handleCheckout = () => {
@@ -20,39 +20,64 @@ const Cart = () => {
   };
 
   return (
-    <div style={{ padding: "20px", border: "1px solid #ccc", borderRadius: "5px", marginBottom: "530px" }}>
-      <h2>Shopping Cart</h2>
-      {cartItems.length === 0 ? (
-        <p>Your cart is empty</p>
-      ) : (
-        <>
-          <ul>
-            {cartItems.map((item) => (
-              <li key={item.id} style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "10px", borderBottom: "1px solid #ccc", paddingBottom: "10px" }}>
-                <img src={item.image} alt={item.title} style={{ width: "50px", height: "50px", marginRight: "10px" }} />
-                {item.title} - ${item.price.toFixed(2)}
-                <button 
-                  onClick={() => dispatch(removeFromCart(item.id))} 
-                  style={{ backgroundColor: "#ff4d4d", color: "white", padding: "5px", borderRadius: "5px", border: "none", cursor: "pointer", transition: "0.3s", transform: "scale(1)" }}
-                  onMouseOver={(e) => e.target.style.transform = "scale(1.1)"}
-                  onMouseOut={(e) => e.target.style.transform = "scale(1)"}
-                >
-                  Remove
-                </button>
-              </li>
-            ))}
-          </ul>
-          <h3>Total: ${totalPrice.toFixed(2)}</h3>
+    <div
+      className={`min-h-screen flex justify-center items-center transition-all duration-300 ${
+        darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-gray-900"
+      }`}
+    >
+      <div className={`p-6 rounded-lg shadow-md w-full max-w-3xl mx-auto transition-all duration-300 ${
+        darkMode ? "bg-gray-800 text-white" : "bg-white text-gray-900"
+      }`}>
+        <h2 className="text-2xl font-semibold text-center mb-4">Shopping Cart</h2>
 
-          {/* Proceed to Checkout Button */}
-          <button 
-            onClick={handleCheckout}
-            style={{ backgroundColor: "#dc2626", color: "white", padding: "10px", borderRadius: "5px", border: "none", cursor: "pointer", width: "100%", marginTop: "10px" }}
-          >
-            Proceed to Checkout
-          </button>
-        </>
-      )}
+        {cartItems.length === 0 ? (
+          <p className="text-center text-gray-400">Your cart is empty</p>
+        ) : (
+          <>
+            <ul className="divide-y divide-gray-600">
+              {cartItems.map((item) => (
+                <li key={item.id} className="flex justify-between items-center py-4">
+                  <div className="flex items-center">
+                    <img src={item.image} alt={item.title} className="w-12 h-12 rounded-md mr-4" />
+                    <div>
+                      <p className="font-medium">{item.title}</p>
+                      <p className={`text-sm ${darkMode ? "text-gray-300" : "text-gray-500"}`}>
+                        ${item.price.toFixed(2)}
+                      </p>
+                      <p className={`text-sm ${darkMode ? "text-gray-400" : "text-gray-600"}`}>
+                        Quantity: {item.quantity}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <button
+                      onClick={() => dispatch(removeFromCart(item.id))}
+                      className="bg-red-500 text-white px-3 py-1 rounded-md hover:bg-red-400 transition"
+                    >
+                      -
+                    </button>
+                    <button
+                      onClick={() => dispatch(addToCart(item))}
+                      className="bg-green-500 text-white px-3 py-1 rounded-md ml-2 hover:bg-green-400 transition"
+                    >
+                      +
+                    </button>
+                  </div>
+                </li>
+              ))}
+            </ul>
+            <h3 className="text-xl font-semibold mt-6">Total: ${totalPrice.toFixed(2)}</h3>
+
+            {/* Proceed to Checkout Button */}
+            <button
+              onClick={handleCheckout}
+              className="w-full bg-red-600 text-white py-2 rounded-lg mt-4 hover:bg-red-500 transition"
+            >
+              Proceed to Checkout
+            </button>
+          </>
+        )}
+      </div>
     </div>
   );
 };

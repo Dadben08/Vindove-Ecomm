@@ -3,7 +3,7 @@ import React from "react";
 const AboutMe = ({ darkMode }) => {
   return (
     <div className={`min-h-screen flex items-center justify-center ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
-      <div className={`p-10 max-w-3xl w-full text-center rounded-lg shadow-lg ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
+      <div className={`p-10 max-w-3xl w-full text-center rounded-lg  ${darkMode ? "bg-gray-900 text-white" : "bg-white text-black"}`}>
         <h2 className="text-2xl font-bold text-blue-500">About E-Shop</h2>
         <p className="text-lg leading-relaxed mt-4">
           Welcome to <strong>E-Shop</strong>, your go-to online marketplace for quality products at unbeatable prices.
