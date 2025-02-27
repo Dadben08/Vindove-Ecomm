@@ -44,7 +44,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         <img src={logo} alt="E-Shop Logo" className="h-10 cursor-pointer" />
       </Link>
 
-      {/* Search Bar (Hidden on Small Screens) */}
+      
       <form
         onSubmit={handleSearchSubmit}
         className="hidden md:flex items-center border border-gray-300 shadow-md rounded-3xl overflow-hidden w-64 h-11"
@@ -80,7 +80,7 @@ const Navbar = ({ darkMode, setDarkMode }) => {
         </Link> 
         <div className="border-1 border-gray-400  shadow-xl flex p-1.5 rounded-full gap-2.5">
         <div className="relative">
-          <button onClick={toggleMenu} className="p-2 rounded-full h-8 w-8 flex border border-gray-400">
+          <button onClick={toggleMenu} className="p-1 rounded-full h-8 w-8 flex border border-gray-400">
             {isOpen ? <FiX size={22} /> : <FiMenu size={22} />}
           </button>
 
