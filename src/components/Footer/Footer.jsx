@@ -8,10 +8,10 @@ const Footer = ({ darkMode }) => {
         darkMode ? "bg-gray-900 text-white" : "bg-gray-100 text-black"
       }`}
     >
-      <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-6">
+      <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center px-6 gap-4">
         {/* Left Section */}
-        <div className="flex space-x-4 mb-2 sm:mb-0">
-          <p>&copy; 2025 </p>
+        <div className="flex flex-wrap justify-center sm:justify-start space-x-2 text-center sm:text-left">
+          <p>&copy; 2025</p>
           <a href="#" className="hover:underline">Privacy</a>
           <span>·</span>
           <a href="#" className="hover:underline">Terms</a>
@@ -22,8 +22,8 @@ const Footer = ({ darkMode }) => {
         </div>
 
         {/* Right Section */}
-        <div className="flex space-x-4 sm:ml-auto items-center">
-          <FaGlobe size={16} /> 
+        <div className="flex flex-wrap justify-center sm:justify-end items-center gap-3">
+          <FaGlobe size={16} />
           <a href="#" className="hover:underline">Giglobe</a>
           <a href="#" className="hover:underline">English (US)</a>
           <span>$</span>
